@@ -1,0 +1,14 @@
+pydantic-ai-slim[openai,anthropic]>=1.0   # Agent framework: tools, typed outputs, model providers
+plotly>=5.24             # Interactive charts
+streamlit>=1.40          # Web UI (chat, file upload)
+numpy>=1.26              # Statistics in the trend summary
+pyyaml>=6.0              # config.yaml
+python-dotenv>=1.0       # Loads OPENAI_API_KEY from .env
+markdown-it-py>=3.0      # scripts/demo.py: renders answers into the HTML report
+kaleido>=1.0             # Optional: export charts as PNG (needs Chrome or Edge)
+pytest>=8.0              # Offline test suite
+
+# Pinned for Windows Smart App Control: it blocks the DLLs of some brand-new
+# compiled builds on this laptop; these releases are known to load.
+pydantic==2.12.*
+pandas==2.3.*

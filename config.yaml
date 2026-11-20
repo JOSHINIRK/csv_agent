@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------------
+# Settings for the CSV Data Explorer. Every module reads them through
+# csvagent/config.py. Any key can be overridden with an environment variable
+# named CSVX_<KEY IN UPPER CASE>, for example CSVX_MODEL=openai:gpt-4.1.
+# ---------------------------------------------------------------------------
+
+# Pydantic AI model string "<provider>:<model name>". The model must support
+# tool calling. Examples:
+#   openai:gpt-4.1-mini          (needs OPENAI_API_KEY)
+#   openai:gpt-4.1
+#   anthropic:claude-sonnet-5-5  (needs ANTHROPIC_API_KEY)
+model: openai:gpt-4.1-mini
+
+# Low temperature = consistent query plans. Reasoning models (o-series,
+# gpt-5 family) reject this parameter: set it to null for those.
+temperature: 0.1
+
+# --- Agent -------------------------------------------------------------------
+agent_max_requests: 12     # maximum model calls per question (tool rounds + final answer)
+history_turns: 6           # earlier question/answer pairs sent with a follow-up question
+table_rows_to_model: 40    # rows of a query result the model sees (the UI shows all of them)
+
+# --- CSV import --------------------------------------------------------------
+max_upload_mb: 200         # keep in line with maxUploadSize in .streamlit/config.toml
+categorical_max_unique: 60 # string columns with at most this many distinct values are categories
+# "None" is deliberately not here: it is often a real category (e.g. Garage = None).
+na_values: ["", "NA", "N/A", "n/a", "na", "#N/A", "#NA", "<NA>", "null", "NULL", "?", "-", "--", "nan", "NaN"]
+
+# --- Charts ------------------------------------------------------------------
+max_chart_points: 20000    # scatter / box / histogram rows are sampled down to this
+max_color_series: 8        # categories beyond this fold into "Other"
+
+# --- Optional semantic column search (embeddings) ---------------------------
+# When true, column names are embedded once per dataset so the agent can map
+# words like "revenue" to a column named "Sales". Fuzzy text matching is
+# always on; embeddings only add to it. Costs one small embedding call.
+semantic_search: false
+embedding_model: text-embedding-3-small
